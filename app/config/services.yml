@@ -1,0 +1,22 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+  app.automaton:
+    class: AppBundle\Services\AutomatonService
+    arguments:    ['%kernel.root_dir%', '@app.cueillette.spreadsheet']
+  app.doctrine_automaton_listener:
+    class: AppBundle\EventListener\AutomatonListener
+    arguments: ['@app.automaton']
+    tags:
+        - { name: doctrine.event_listener, event: postPersist }
+        - { name: doctrine.event_listener, event: preUpdate }
+        - { name: doctrine.event_listener, event: postLoad }
+  app.cueillette.crawler:
+    class: AppBundle\Services\Cueillette\CueilletteCrawler
+    arguments:    ['%cueillette_website%', '%extra_products%', '%kernel.cache_dir%', '@templating']
+  app.cueillette.spreadsheet:
+    class: AppBundle\Services\Cueillette\CueilletteSpreadsheet
+    arguments:    ['%cueillette_spreadsheet_id%', '%gg_credential_path%','%gg_application_name%', '%gg_scope%', '%gg_secret_auth_info%', '%cueillette_gg_editors%']

@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Automatons list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Spreadsheetid</th>
+                <th>Ggeditor</th>
+                <th>Cookie</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for automaton in automatons %}
+            <tr>
+                <td><a href="{{ path('automaton_show', { 'id': automaton.id }) }}">{{ automaton.id }}</a></td>
+                <td>{{ automaton.spreadsheetId }}</td>
+                <td>{{ automaton.ggEditor }}</td>
+                <td>{{ automaton.cookie }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('automaton_show', { 'id': automaton.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('automaton_edit', { 'id': automaton.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('automaton_new') }}">Create a new automaton</a>
+        </li>
+    </ul>
+{% endblock %}

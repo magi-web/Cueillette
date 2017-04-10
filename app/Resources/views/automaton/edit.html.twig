@@ -1,0 +1,69 @@
+{% extends 'layout.html.twig' %}
+{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+
+{% block content %}
+    <h1>Automaton edit</h1>
+
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <input type="submit" value="Edit"/>
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('automaton_index') }}">Back to the list</a>
+        </li>
+        {% if automaton.isready and gg_auth_url is empty %}
+            <li>
+                <a href="{{ path('automaton_catalog', { 'id': automaton.id }) }}">Prepare catalog</a>
+            </li>
+            <li>
+                <a href="{{ path('automaton_cart', { 'id': automaton.id }) }}">Prepare cart</a>
+            </li>
+        {% elseif not gg_auth_url is empty %}
+            <li>
+                Please visit this url to set the google authentication key.
+                <a href="{{ gg_auth_url }}" target="_blank">Get the Google authentication key</a>
+            </li>
+        {% endif %}
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    <div class="form-group">
+        <button onclick="copyTemplate()">Click to copy above template to clipboard</button>
+        <label for="fb-template">
+            Format de post :
+        </label>
+        <textarea id="fb-template" class="form-control" style="opacity: 0;">
+Voici le lien vers la commande de paniers de la semaine.
+
+Pensez également à ramener les sac que vous avez eu lors de vos commandes ainsi que les boîtes d'oeufs svp. Julien des *paniers bio* les récupère volontiers.
+N'oubliez pas de vous noter **aujourd'hui avant 18h** dans [le document](https://docs.google.com/a/emakina.fr/spreadsheets/d/{{ automaton.spreadsheetid }}/edit?usp=sharing) afin de ne pas louper le coche. Livraison prévue le mercredi en fin de matinée comme d'habitude.
+Vous pouvez trouver [ici une liste](https://docs.google.com/a/emakina.fr/spreadsheets/d/1mESdB_L_AxbDkns0EB0FxNVtLZ3Yz19PpHAuWyLtmCQ/edit?usp=sharing) des principaux producteurs qui travaillent avec Julien.
+Merci à tous pour vos feedbacks.
+</textarea>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function copyTemplate() {
+            jQuery('#fb-template').select();
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                alert('Oops, unable to copy');
+            }
+        }
+
+        function checkGoogleToken() {
+            jQuery.ajax({url: '/automaton/1/token'});
+        }
+    </script>
+{% endblock %}

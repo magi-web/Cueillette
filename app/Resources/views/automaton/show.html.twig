@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Automaton</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ automaton.id }}</td>
+            </tr>
+            <tr>
+                <th>Spreadsheetid</th>
+                <td>{{ automaton.spreadsheetId }}</td>
+            </tr>
+            <tr>
+                <th>Ggeditor</th>
+                <td>{{ automaton.ggEditor }}</td>
+            </tr>
+            <tr>
+                <th>Cookie</th>
+                <td>{{ automaton.cookie }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('automaton_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('automaton_edit', { 'id': automaton.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
