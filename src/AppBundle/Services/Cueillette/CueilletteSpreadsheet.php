@@ -451,7 +451,7 @@ class CueilletteSpreadsheet
         for ($i = $rowsValuesOrigin; $i <= $maxRows; $i++) {
             $range = "$colsValuesOrigin$pricesRow:$maxColumn$pricesRow;$colsValuesOrigin$i:$maxColumn$i";
             $values[] = array(
-                "=IF(OR(D$i=\"\"; D$i=0); \"\"; HYPERLINK(CONCATENATE(\"https://www.paypal.com/myaccount/transfer/send/external?recipient=mgi%40emakina.fr&currencyCode=EUR&amount=\"; SUBSTITUTE(D$i;\",\";\".\")); IMAGE(\"https://www.paypalobjects.com/images/shared/paypal-logo-129x32.svg\"; 1)))",
+                "=IF(OR(D$i=\"\"; D$i=0); \"\"; HYPERLINK(CONCATENATE(\"https://paypal.me/AlexandreGlize/\"; TO_PURE_NUMBER(D$i)); IMAGE(\"https://www.paypalobjects.com/images/shared/paypal-logo-129x32.svg\"; 1)))",
                 "=IF(SUMPRODUCT($range)=0;\"\";SUMPRODUCT($range))"
             );
         }
