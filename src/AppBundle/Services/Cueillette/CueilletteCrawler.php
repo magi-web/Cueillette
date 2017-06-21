@@ -75,7 +75,7 @@ class CueilletteCrawler
         $ch = curl_init();
 
         // set url
-        curl_setopt($ch, CURLOPT_URL, $this->websiteURL . "/31-nos-paniers-bio");
+        curl_setopt($ch, CURLOPT_URL, $this->websiteURL . "/tous-nos-paniers-bio/");
 
         //return the transfer as a string
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -87,19 +87,26 @@ class CueilletteCrawler
         curl_close($ch);
 
         $crawler = new Crawler($c_output);
-        $crawler = $crawler->filter('[itemtype="http://schema.org/Product"]');
+        $crawler = $crawler->filter('.product');
         $products = $crawler->each(
             function (Crawler $crawler, $i) {
-                $productLink = $crawler->filter('[itemprop="url"]');
-
-                $description = $crawler->filter('[itemprop="description"]')->text();
+                // Get the name
+                $title = $crawler->filter(".woocommerce-loop-product__title");
+                $small = $crawler->filter('small');
+                $pos = strpos($title->text(), $small->text());
+                $name = substr_replace($title->text(), "", $pos);
+                // Get the link
+                $link = $crawler->filter(".woocommerce-LoopProduct-link");
+                // Get the description
+                $description = $small->text();
                 $description = trim(preg_replace('/Composition(.*?):/', "", $description));
-
+                // Get the price
+                $price = $crawler->filter(".woocommerce-Price-amount");
                 return array(
-                    'name'        => trim($productLink->attr('title')),
+                    'name'        => trim($name),
                     'description' => $description,
-                    'price'       => floatval(str_replace(',', '.', $crawler->filter('[itemprop="price"]')->text())),
-                    'url'         => $productLink->attr('href')
+                    'price'       => $price->text(),
+                    'url'         => $link->attr('href')
                 );
             }
         );
