@@ -52,7 +52,7 @@ class CueilletteCrawler
      * @param string $cacheDir
      * @param EngineInterface $templating
      */
-    public function __construct($domain, array $extraProducts, $cacheDir, EngineInterface $templating)
+    public function __construct($domain, $extraProducts, $cacheDir, EngineInterface $templating)
     {
         $this->extraProducts = $extraProducts;
 
@@ -111,7 +111,7 @@ class CueilletteCrawler
             }
         );
 
-        $products = array_merge($products, $this->extraProducts);
+        //$products = array_merge($products, $this->extraProducts);
 
         return $products;
     }

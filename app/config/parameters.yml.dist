@@ -21,12 +21,6 @@ parameters:
     cueillette_url: 'http://www.panier-cueillette-paysanne.fr/31-nos-paniers-bio'
     cueillette_website: www.panier-cueillette-paysanne.fr
     extra_products:
-        -
-            id: ''
-            url: ''
-            name: 'Jus de Pomme'
-            price: 3.5
-            description: '1 Bouteille'
     cueillette_spreadsheet_id: ~
     cueillette_gg_editors: ~
     gg_credential_path: ~
